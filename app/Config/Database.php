@@ -89,5 +89,7 @@ class Database extends Config
             $this->default['DBDriver'] = getenv('database.default.DBDriver');
             $this->default['port']     = getenv('database.default.port');
         }
+        var_dump($this->default);
+        exit('--- Debug Selesai ---');
     }
 }
