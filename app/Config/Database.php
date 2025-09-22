@@ -126,5 +126,8 @@ class Database extends Config
             
             $this->default = $dbConfig;
         }
+        
+        var_dump($this->default);
+        exit('--- Debug Selesai ---');
     }
 }
