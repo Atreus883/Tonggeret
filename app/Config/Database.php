@@ -82,27 +82,27 @@ class Database extends Config
         ],
     ];
 
-    public function __construct()
+public function __construct()
     {
         parent::__construct();
 
-        // Ensure that we always set the database group to 'tests' if
-        // we are currently running an automated test suite, so that
-        // we don't overwrite live data on accident.
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
 
         // =================================================================
-        // KODE BARU UNTUK MEMBACA DATABASE_URL DARI RENDER (VERSI FINAL)
+        // KODE FINAL DENGAN PERBAIKAN HOSTNAME
         // =================================================================
 
         if (getenv('DATABASE_URL')) {
             $url = parse_url(getenv('DATABASE_URL'));
 
+            // Ambil hostname dari URL dan tambahkan akhiran .internal
+            $hostname = $url['host'] . '.internal';
+
             $dbConfig = [
                 'DSN'      => '',
-                'hostname' => $url['host'],
+                'hostname' => $hostname, // Gunakan hostname yang sudah diperbaiki
                 'username' => $url['user'],
                 'password' => $url['pass'],
                 'database' => substr($url['path'], 1),
@@ -119,15 +119,11 @@ class Database extends Config
                 'failover' => [],
             ];
             
-            // Tambahkan port hanya jika ada di dalam URL
             if (isset($url['port'])) {
                 $dbConfig['port'] = $url['port'];
             }
             
             $this->default = $dbConfig;
         }
-        
-        var_dump($this->default);
-        exit('--- Debug Selesai ---');
     }
 }
