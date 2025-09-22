@@ -7,5 +7,9 @@ RUN a2enmod rewrite
 # Install ekstensi PHP yang umum dibutuhkan (termasuk untuk MySQL)
 RUN docker-php-ext-install pdo pdo_mysql
 
+# --- TAMBAHKAN BARIS INI ---
+# Ubah DocumentRoot Apache agar menunjuk ke folder /public
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+
 # Salin semua file proyek Anda ke direktori web server di dalam container
 COPY . /var/www/html/
