@@ -24,24 +24,24 @@ class Database extends Config
      * This is the configuration used for local development.
      * @var array<string, mixed>
      */
-    public array $default = [
-        'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
-        'database'     => 'tonggeret',
-        'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8mb4',
-        'DBCollat'     => 'utf8mb4_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => 3306,
+    public $default = [
+        'DSN'      => '',
+        'hostname' => $_ENV['DATABASE_HOSTNAME'] ?? 'localhost',
+        'username' => $_ENV['DATABASE_USERNAME'] ?? 'root',
+        'password' => $_ENV['DATABASE_PASSWORD'] ?? '',
+        'database' => $_ENV['DATABASE_NAME'] ?? '',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => ($_ENV['CI_ENVIRONMENT'] !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => $_ENV['DATABASE_PORT'] ?? 3306,
     ];
 
     /**
