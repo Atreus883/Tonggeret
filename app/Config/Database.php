@@ -21,28 +21,10 @@ class Database extends Config
 
     /**
      * The default database connection.
-     * This is the configuration used for local development.
+     *
      * @var array<string, mixed>
      */
-    public array $default = [
-        'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
-        'database'     => 'tonggeret',
-        'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8mb4',
-        'DBCollat'     => 'utf8mb4_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => 3306,
-    ];
+    public array $default = [];
 
     /**
      * This database connection is used when running PHPUnit database tests.
@@ -73,44 +55,34 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
-    
+
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
+            return;
         }
-    
+
         // =================================================================
-        // KODE DEBUGGING - HAPUS SETELAH SELESAI
+        // KONFIGURASI DATABASE MANUAL (HARDCODE)
         // =================================================================
-        echo "--- Memulai Debugging Konfigurasi Database ---<br><pre>";
-    
-        echo "Mencoba membaca environment variables:<br>";
-        var_dump('hostname: ' . getenv('database.default.hostname'));
-        var_dump('username: ' . getenv('database.default.username'));
-        var_dump('password: ' . getenv('database.default.password'));
-        var_dump('database: ' . getenv('database.default.database'));
-        var_dump('DBDriver: ' . getenv('database.default.DBDriver'));
-        var_dump('port: '     . getenv('database.default.port'));
-    
-        echo "<br>--- Konfigurasi \$this->default SEBELUM diubah ---<br>";
-        var_dump($this->default);
-        // =================================================================
-    
-        if (getenv('database.default.hostname')) {
-            $this->default['hostname'] = getenv('database.default.hostname');
-            $this->default['username'] = getenv('database.default.username');
-            $this->default['password'] = getenv('database.default.password');
-            $this->default['database'] = getenv('database.default.database');
-            $this->default['DBDriver'] = getenv('database.default.DBDriver');
-            $this->default['port']     = getenv('database.default.port');
-        }
-    
-        // =================================================================
-        // LANJUTAN KODE DEBUGGING
-        // =================================================================
-        echo "<br>--- Konfigurasi \$this->default SETELAH diubah ---<br>";
-        var_dump($this->default);
-    
-        exit("</pre><br>--- Debug Selesai ---"); // Menghentikan eksekusi
-        // =================================================================
+
+        $this->default = [
+            'DSN'          => '',
+            'hostname'     => 'sql305.infinityfree.com', // ISI DI SINI
+            'username'     => 'if0_39998093', // ISI DI SINI
+            'password'     => 'OqWyb6AWlC', // ISI DI SINI
+            'database'     => 'if0_39998093_tonggeretdb', // ISI DI SINI
+            'DBDriver'     => 'MySQLi', // ISI DI SINI (Contoh: 'MySQLi' atau 'Postgre')
+            'DBPrefix'     => '',
+            'pConnect'     => false,
+            'DBDebug'      => (ENVIRONMENT !== 'production'),
+            'charset'      => 'utf8mb4',
+            'DBCollat'     => 'utf8mb4_general_ci',
+            'swapPre'      => '',
+            'encrypt'      => false,
+            'compress'     => false,
+            'strictOn'     => false,
+            'failover'     => [],
+            'port'         => 3306, // ISI DI SINI (Contoh: 3306 atau 5432)
+        ];
     }
 }
