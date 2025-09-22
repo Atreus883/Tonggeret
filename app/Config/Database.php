@@ -82,48 +82,15 @@ class Database extends Config
         ],
     ];
 
-public function __construct()
+    public function __construct()
     {
         parent::__construct();
 
+        // Ensure that we always set the database group to 'tests' if
+        // we are currently running an automated test suite, so that
+        // we don't overwrite live data on accident.
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
-        }
-
-        // =================================================================
-        // KODE FINAL DENGAN PERBAIKAN HOSTNAME
-        // =================================================================
-
-        if (getenv('DATABASE_URL')) {
-            $url = parse_url(getenv('DATABASE_URL'));
-
-            // Ambil hostname dari URL dan tambahkan akhiran .internal
-            $hostname = $url['host'] . '.internal';
-
-            $dbConfig = [
-                'DSN'      => '',
-                'hostname' => $hostname, // Gunakan hostname yang sudah diperbaiki
-                'username' => $url['user'],
-                'password' => $url['pass'],
-                'database' => substr($url['path'], 1),
-                'DBDriver' => ($url['scheme'] === 'postgres') ? 'Postgre' : 'MySQLi',
-                'DBPrefix' => '',
-                'pConnect' => false,
-                'DBDebug'  => (ENVIRONMENT !== 'production'),
-                'charset'  => 'utf8mb4',
-                'DBCollat' => 'utf8mb4_general_ci',
-                'swapPre'  => '',
-                'encrypt'  => false,
-                'compress' => false,
-                'strictOn' => false,
-                'failover' => [],
-            ];
-            
-            if (isset($url['port'])) {
-                $dbConfig['port'] = $url['port'];
-            }
-            
-            $this->default = $dbConfig;
         }
     }
 }
