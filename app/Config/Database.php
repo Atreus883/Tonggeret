@@ -94,21 +94,18 @@ class Database extends Config
         }
 
         // =================================================================
-        // KODE BARU UNTUK MEMBACA DATABASE_URL DARI RENDER
+        // KODE BARU UNTUK MEMBACA DATABASE_URL DARI RENDER (VERSI FINAL)
         // =================================================================
 
-        // Periksa apakah ada environment variable DATABASE_URL dari Render
         if (getenv('DATABASE_URL')) {
-            // Urai URL database menjadi bagian-bagiannya
             $url = parse_url(getenv('DATABASE_URL'));
 
-            // Ganti seluruh konfigurasi default dengan nilai dari URL
-            $this->default = [
+            $dbConfig = [
                 'DSN'      => '',
                 'hostname' => $url['host'],
                 'username' => $url['user'],
                 'password' => $url['pass'],
-                'database' => substr($url['path'], 1), // Hapus '/' di depan
+                'database' => substr($url['path'], 1),
                 'DBDriver' => ($url['scheme'] === 'postgres') ? 'Postgre' : 'MySQLi',
                 'DBPrefix' => '',
                 'pConnect' => false,
@@ -120,8 +117,14 @@ class Database extends Config
                 'compress' => false,
                 'strictOn' => false,
                 'failover' => [],
-                'port'     => $url['port'],
             ];
+            
+            // Tambahkan port hanya jika ada di dalam URL
+            if (isset($url['port'])) {
+                $dbConfig['port'] = $url['port'];
+            }
+            
+            $this->default = $dbConfig;
         }
     }
 }
