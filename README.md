@@ -33,4 +33,6 @@ Sebagai **Frontend dan Partial Backend Developer**, tanggung jawab utama saya da
 * Merancang dan mengimplementasikan tampilan website agar intuitif, responsif, dan menarik bagi pengguna.
 * Menangani sebagian logika backend, termasuk membuat skema database, mengelola proses CRUD (Create, Read, Update, Delete) untuk data film dan ulasan, serta mengimplementasikan sistem autentikasi pengguna.
 
+
+
 ---
