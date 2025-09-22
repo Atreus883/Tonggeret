@@ -30,7 +30,7 @@
                 <?php $username = session()->get('username'); ?>
                 <span class="username">Hi, <?= esc($username) ?></span>
             </li>
-            <a href="/logout" class="logout-btn">Logout</a>
+            <!-- <a href="/logout" class="logout-btn">Logout</a> -->
         </ul>
     </nav>
 </body>

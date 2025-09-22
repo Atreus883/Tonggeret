@@ -21,11 +21,29 @@ class DashboardController extends BaseController
 
     public function index()
     {
+        // =================================================================
+        // KODE BARU UNTUK MEMBUAT SESI PALSU (UNTUK PORTOFOLIO)
+        // =================================================================
 
+        // Cek jika sesi 'logged_in' belum ada atau false
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login');
+            // Buat data user palsu untuk ditampilkan di dashboard
+            $fakeUserData = [
+                'id'         => 999, // ID fiktif
+                'username'   => 'admin',
+                'logged_in'  => true,
+            ];
+
+            // Simpan data palsu ke dalam sesi
+            session()->set($fakeUserData);
         }
 
+        // =================================================================
+        // AKHIR DARI KODE BARU
+        // =================================================================
+
+
+        // Kode asli Anda di bawah ini akan tetap berjalan normal
         $query = $this->request->getGet('query');
 
 
