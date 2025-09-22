@@ -24,7 +24,7 @@ class Database extends Config
      * This is the configuration used for local development.
      * @var array<string, mixed>
      */
-    public $default = [
+    public array $default = [
         'DSN'      => '',
         'hostname' => $_ENV['DATABASE_HOSTNAME'] ?? 'localhost',
         'username' => $_ENV['DATABASE_USERNAME'] ?? 'root',
