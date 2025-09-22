@@ -21,7 +21,7 @@ class Database extends Config
 
     /**
      * The default database connection.
-     *
+     * This is the configuration used for local development.
      * @var array<string, mixed>
      */
     public array $default = [
@@ -42,17 +42,10 @@ class Database extends Config
         'strictOn'     => false,
         'failover'     => [],
         'port'         => 3306,
-        'numberNative' => false,
-        'dateFormat'   => [
-            'date'     => 'Y-m-d',
-            'datetime' => 'Y-m-d H:i:s',
-            'time'     => 'H:i:s',
-        ],
     ];
 
     /**
      * This database connection is used when running PHPUnit database tests.
-     *
      * @var array<string, mixed>
      */
     public array $tests = [
@@ -62,11 +55,11 @@ class Database extends Config
         'password'    => '',
         'database'    => ':memory:',
         'DBDriver'    => 'SQLite3',
-        'DBPrefix'    => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
+        'DBPrefix'    => 'db_',
         'pConnect'    => false,
         'DBDebug'     => true,
         'charset'     => 'utf8',
-        'DBCollat'    => '',
+        'DBCollat'    => 'utf8_general_ci',
         'swapPre'     => '',
         'encrypt'     => false,
         'compress'    => false,
@@ -75,22 +68,26 @@ class Database extends Config
         'port'        => 3306,
         'foreignKeys' => true,
         'busyTimeout' => 1000,
-        'dateFormat'  => [
-            'date'     => 'Y-m-d',
-            'datetime' => 'Y-m-d H:i:s',
-            'time'     => 'H:i:s',
-        ],
     ];
 
     public function __construct()
     {
         parent::__construct();
 
-        // Ensure that we always set the database group to 'tests' if
-        // we are currently running an automated test suite, so that
-        // we don't overwrite live data on accident.
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
+        }
+
+        // =================================================================
+        // KODE UNTUK MEMBACA ENVIRONMENT VARIABLES DARI RENDER
+        // =================================================================
+        if (getenv('database.default.hostname')) {
+            $this->default['hostname'] = getenv('database.default.hostname');
+            $this->default['username'] = getenv('database.default.username');
+            $this->default['password'] = getenv('database.default.password');
+            $this->default['database'] = getenv('database.default.database');
+            $this->default['DBDriver'] = getenv('database.default.DBDriver');
+            $this->default['port']     = getenv('database.default.port');
         }
     }
 }
