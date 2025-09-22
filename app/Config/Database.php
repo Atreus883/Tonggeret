@@ -56,33 +56,22 @@ class Database extends Config
     {
         parent::__construct();
 
-        if (ENVIRONMENT === 'testing') {
-            $this->defaultGroup = 'tests';
-            return;
-        }
 
-        // =================================================================
-        // KONFIGURASI DATABASE MANUAL (HARDCODE)
-        // =================================================================
+    if (ENVIRONMENT === 'testing') {
+        $this->defaultGroup = 'tests';
 
-        $this->default = [
-            'DSN'          => '',
-            'hostname'     => 'sql305.infinityfree.com', // ISI DI SINI
-            'username'     => 'if0_39998093', // ISI DI SINI
-            'password'     => 'OqWyb6AWlC', // ISI DI SINI
-            'database'     => 'if0_39998093_tonggeretdb', // ISI DI SINI
-            'DBDriver'     => 'MySQLi', // ISI DI SINI (Contoh: 'MySQLi' atau 'Postgre')
-            'DBPrefix'     => '',
-            'pConnect'     => false,
-            'DBDebug'      => (ENVIRONMENT !== 'production'),
-            'charset'      => 'utf8mb4',
-            'DBCollat'     => 'utf8mb4_general_ci',
-            'swapPre'      => '',
-            'encrypt'      => false,
-            'compress'     => false,
-            'strictOn'     => false,
-            'failover'     => [],
-            'port'         => 3306, // ISI DI SINI (Contoh: 3306 atau 5432)
-        ];
     }
+    
+    if (getenv('database.default.hostname')) {
+        $this->default['hostname'] = getenv('database.default.hostname');
+        $this->default['username'] = getenv('database.default.username');
+        $this->default['password'] = getenv('database.default.password');
+        $this->default['database'] = getenv('database.default.database');
+        $this->default['DBDriver'] = getenv('database.default.DBDriver');
+        $this->default['port']= getenv('database.default.port');
+    }
+
+
+    }
+
 }
