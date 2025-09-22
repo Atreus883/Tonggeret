@@ -73,14 +73,28 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
-
+    
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
-
+    
         // =================================================================
-        // KODE UNTUK MEMBACA ENVIRONMENT VARIABLES DARI RENDER
+        // KODE DEBUGGING - HAPUS SETELAH SELESAI
         // =================================================================
+        echo "--- Memulai Debugging Konfigurasi Database ---<br><pre>";
+    
+        echo "Mencoba membaca environment variables:<br>";
+        var_dump('hostname: ' . getenv('database.default.hostname'));
+        var_dump('username: ' . getenv('database.default.username'));
+        var_dump('password: ' . getenv('database.default.password'));
+        var_dump('database: ' . getenv('database.default.database'));
+        var_dump('DBDriver: ' . getenv('database.default.DBDriver'));
+        var_dump('port: '     . getenv('database.default.port'));
+    
+        echo "<br>--- Konfigurasi \$this->default SEBELUM diubah ---<br>";
+        var_dump($this->default);
+        // =================================================================
+    
         if (getenv('database.default.hostname')) {
             $this->default['hostname'] = getenv('database.default.hostname');
             $this->default['username'] = getenv('database.default.username');
@@ -89,7 +103,14 @@ class Database extends Config
             $this->default['DBDriver'] = getenv('database.default.DBDriver');
             $this->default['port']     = getenv('database.default.port');
         }
+    
+        // =================================================================
+        // LANJUTAN KODE DEBUGGING
+        // =================================================================
+        echo "<br>--- Konfigurasi \$this->default SETELAH diubah ---<br>";
         var_dump($this->default);
-        exit('--- Debug Selesai ---');
+    
+        exit("</pre><br>--- Debug Selesai ---"); // Menghentikan eksekusi
+        // =================================================================
     }
 }
